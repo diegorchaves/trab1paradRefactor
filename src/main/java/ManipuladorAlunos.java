@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ManipuladorAlunos extends ManipuladorTabela{
-    private Connection conexao = ConexaoBanco.getInstance().getConexao();
+
     public ManipuladorAlunos() {
         super();
     }
@@ -12,6 +12,7 @@ public class ManipuladorAlunos extends ManipuladorTabela{
         String sql = "SELECT * FROM alunos";
         List<Aluno> retorno = new ArrayList<>();
         try {
+            Connection conexao = getConexao();
             PreparedStatement stmt = conexao.prepareStatement(sql);
             ResultSet resultado = stmt.executeQuery();
             while(resultado.next()) {
@@ -33,6 +34,7 @@ public class ManipuladorAlunos extends ManipuladorTabela{
         String sql = "INSERT INTO alunos(nome, cpf, nascimento, numerocartao) VALEUS (?, ?, ?, ?)";
         String dataString = aluno.getDataNascimento().toString();
         try {
+            Connection conexao = getConexao();
             PreparedStatement stmt = conexao.prepareStatement(sql);
             stmt.setString(1, aluno.getNome());
             stmt.setString(2, aluno.getCpf());
@@ -47,6 +49,7 @@ public class ManipuladorAlunos extends ManipuladorTabela{
         String sql = "UPDATE alunos SET nome=?, cpf=?, nascimento=?, numerocartao=? WHERE id =?";
         String dataString = aluno.getDataNascimento().toString();
         try {
+            Connection conexao = getConexao();
             PreparedStatement stmt = conexao.prepareStatement(sql);
             stmt.setString(1, aluno.getNome());
             stmt.setString(2, aluno.getCpf());
@@ -62,6 +65,7 @@ public class ManipuladorAlunos extends ManipuladorTabela{
     public void removerAluno(Integer id) {
         String sql = "REMOVE FROM alunos WHERE id=?";
         try {
+            Connection conexao = getConexao();
             PreparedStatement stmt = conexao.prepareStatement(sql);
             stmt.setInt(1, id);
             stmt.execute();
