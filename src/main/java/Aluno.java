@@ -35,8 +35,8 @@ public class Aluno {
         return dataNascimento;
     }
 
-    public void setDataNascimento(LocalDate dataNascimento) {
-        this.dataNascimento = dataNascimento;
+    public void setDataNascimento(String dataNascimento) {
+        this.dataNascimento = LocalDate.parse(dataNascimento);
     }
 
     public String getCartao() {
