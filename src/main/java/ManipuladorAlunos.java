@@ -2,26 +2,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClienteDAO {
-    private Connection connection;
-
-    public ClienteDAO() {
-        try {
-            Class.forName("org.postgresql.Driver");
-            String DATABASE_URL = "jdbc:postgresql://localhost/academia";
-            String usuario = "postgres";
-            String senha = "123456";
-            this.connection = DriverManager.getConnection(DATABASE_URL, usuario, senha);
-        } catch(ClassNotFoundException | SQLException e) {
-            System.out.println("Não foi possível conectar no banco de dados.");
-        }
+public class ManipuladorAlunos extends ManipuladorTabela{
+    private Connection conexao = ConexaoBanco.getInstance().getConexao();
+    public ManipuladorAlunos() {
+        super();
     }
 
     public List<Aluno> listarAlunos() {
         String sql = "SELECT * FROM alunos";
         List<Aluno> retorno = new ArrayList<>();
         try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
+            PreparedStatement stmt = conexao.prepareStatement(sql);
             ResultSet resultado = stmt.executeQuery();
             while(resultado.next()) {
                 Aluno aluno = new Aluno();
@@ -42,7 +33,7 @@ public class ClienteDAO {
         String sql = "INSERT INTO alunos(nome, cpf, nascimento, numerocartao) VALEUS (?, ?, ?, ?)";
         String dataString = aluno.getDataNascimento().toString();
         try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
+            PreparedStatement stmt = conexao.prepareStatement(sql);
             stmt.setString(1, aluno.getNome());
             stmt.setString(2, aluno.getCpf());
             stmt.setString(3, dataString);
@@ -56,7 +47,7 @@ public class ClienteDAO {
         String sql = "UPDATE alunos SET nome=?, cpf=?, nascimento=?, numerocartao=? WHERE id =?";
         String dataString = aluno.getDataNascimento().toString();
         try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
+            PreparedStatement stmt = conexao.prepareStatement(sql);
             stmt.setString(1, aluno.getNome());
             stmt.setString(2, aluno.getCpf());
             stmt.setString(3, dataString);
@@ -71,7 +62,7 @@ public class ClienteDAO {
     public void removerAluno(Integer id) {
         String sql = "REMOVE FROM alunos WHERE id=?";
         try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
+            PreparedStatement stmt = conexao.prepareStatement(sql);
             stmt.setInt(1, id);
             stmt.execute();
         } catch (SQLException e) {
