@@ -21,6 +21,7 @@ public class Main {
             System.out.println("1 - Cadastrar aluno.");
             System.out.println("2 - Remover aluno.");
             System.out.println("3 - Alterar aluno.");
+            System.out.println("4 - Buscar aluno.");
             opcao = entrada.nextInt();
             entrada.nextLine();
             switch (opcao) {
@@ -38,6 +39,7 @@ public class Main {
                     manipuladorAlunos.removerAluno(cpf);
                     break;
                 case 3:
+                    Boolean encontrou = false;
                     alunoList = manipuladorAlunos.buscarListaAlunos();
                     impressao.imprimirListaAlunos(alunoList);
                     System.out.println("Digite o CPF do aluno que deseja alterar:");
@@ -45,10 +47,27 @@ public class Main {
                     for (Aluno aluno1 : alunoList) {
                         if (aluno1.getCpf().equals(cpf)) {
                             manipuladorAlunos.alterarAluno(cpf);
-                        } else {
-                            System.out.println("CPF não encontrado.");
+                            encontrou = true;
+                            System.out.println("Aluno alterado com sucesso.");
                         }
                     }
+                    if (encontrou == false)
+                        System.out.println("Aluno nao encontrado.");
+                    break;
+                case 4:
+                    encontrou = false;
+                    alunoList = manipuladorAlunos.buscarListaAlunos();
+                    System.out.println("Digite o nome ou cpf do aluno que deseja buscar:");
+                    String busca = entrada.nextLine();
+                    for (Aluno aluno1 : alunoList) {
+                        if (aluno1.getCpf().equals(busca) || aluno1.getNome().equals(busca)) {
+                            System.out.println("Aluno encontrado, dados: ");
+                            System.out.println(aluno1.toString());
+                            encontrou = true;
+                        }
+                    }
+                    if(encontrou == false)
+                        System.out.println("Aluno não encontrado.");
                     break;
             }
         } while(opcao != 0);
