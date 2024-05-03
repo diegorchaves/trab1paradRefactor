@@ -1,23 +1,26 @@
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ManipuladorAlunos extends ManipuladorTabela{
+public class ManipuladorAlunos {
 
-    public ManipuladorAlunos() {
-        super();
+    private Connection conexao;
+
+    public ManipuladorAlunos(Connection conexao) {
+        this.conexao = conexao;
     }
 
-    public List<Aluno> listarAlunos() {
+    public List<Aluno> buscarListaAlunos() {
         String sql = "SELECT * FROM alunos";
         List<Aluno> retorno = new ArrayList<>();
         try {
-            Connection conexao = getConexao();
             PreparedStatement stmt = conexao.prepareStatement(sql);
             ResultSet resultado = stmt.executeQuery();
             while(resultado.next()) {
                 Aluno aluno = new Aluno();
-                aluno.setId(resultado.getInt("id"));
                 aluno.setNome(resultado.getString("nome"));
                 aluno.setCpf(resultado.getString("cpf"));
                 aluno.setDataNascimento(resultado.getString("nascimento"));
@@ -31,43 +34,40 @@ public class ManipuladorAlunos extends ManipuladorTabela{
     }
 
     public void inserirAluno(Aluno aluno) {
-        String sql = "INSERT INTO alunos(nome, cpf, nascimento, numerocartao) VALEUS (?, ?, ?, ?)";
+        String sql = "INSERT INTO alunos(nome, nascimento, numerocartao, cpf) VALUES (?, ?, ?, ?)";
         String dataString = aluno.getDataNascimento().toString();
         try {
-            Connection conexao = getConexao();
             PreparedStatement stmt = conexao.prepareStatement(sql);
             stmt.setString(1, aluno.getNome());
-            stmt.setString(2, aluno.getCpf());
-            stmt.setString(3, dataString);
-            stmt.setString(4, aluno.getCartao());
+            stmt.setString(2, dataString);
+            stmt.setString(3, aluno.getCartao());
+            stmt.setString(4, aluno.getCpf());
+            stmt.execute();
         } catch (SQLException e) {
             System.out.println("Erro ao tentar inserir o aluno.");
         }
     }
 
     public void alterarAluno(Aluno aluno) {
-        String sql = "UPDATE alunos SET nome=?, cpf=?, nascimento=?, numerocartao=? WHERE id =?";
+        String sql = "UPDATE alunos SET nome=?, nascimento=?, numerocartao=? WHERE cpf =?";
         String dataString = aluno.getDataNascimento().toString();
         try {
-            Connection conexao = getConexao();
             PreparedStatement stmt = conexao.prepareStatement(sql);
             stmt.setString(1, aluno.getNome());
-            stmt.setString(2, aluno.getCpf());
-            stmt.setString(3, dataString);
-            stmt.setString(4, aluno.getCartao());
-            stmt.setInt(4, aluno.getId());
+            stmt.setString(2, dataString);
+            stmt.setString(3, aluno.getCartao());
+            stmt.setString(4, aluno.getCpf());
             stmt.execute();
         } catch (SQLException e) {
             System.out.println("Erro ao tentar alterar o aluno.");
         }
     }
 
-    public void removerAluno(Integer id) {
-        String sql = "REMOVE FROM alunos WHERE id=?";
+    public void removerAluno(String cpf) {
+        String sql = "REMOVE FROM alunos WHERE cpf=?";
         try {
-            Connection conexao = getConexao();
             PreparedStatement stmt = conexao.prepareStatement(sql);
-            stmt.setInt(1, id);
+            stmt.setString(1, cpf);
             stmt.execute();
         } catch (SQLException e) {
             System.out.println("Erro ao tentar excluir o aluno.");

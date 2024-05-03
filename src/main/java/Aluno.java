@@ -1,19 +1,13 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class Aluno {
-    private Integer id;
+
     private String nome;
     private String cpf;
     private LocalDate dataNascimento;
     private String cartao;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getNome() {
         return nome;
@@ -36,7 +30,12 @@ public class Aluno {
     }
 
     public void setDataNascimento(String dataNascimento) {
-        this.dataNascimento = LocalDate.parse(dataNascimento);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        try {
+            this.dataNascimento = LocalDate.parse(dataNascimento, formatter);
+        } catch (DateTimeParseException e) {
+            System.out.println("Erro ao fazer o parse da data de nascimento.");
+        }
     }
 
     public String getCartao() {
@@ -45,5 +44,15 @@ public class Aluno {
 
     public void setCartao(String cartao) {
         this.cartao = cartao;
+    }
+
+    @Override
+    public String toString() {
+        return "Aluno{" +
+                "nome='" + nome + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", dataNascimento=" + dataNascimento +
+                ", cartao='" + cartao + '\'' +
+                '}';
     }
 }
