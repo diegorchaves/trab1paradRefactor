@@ -8,10 +8,14 @@ public class Main {
     public static void main(String[] args) {
 
         List<Aluno> alunoList = new ArrayList<>();
+        List<Plano> planoList = new ArrayList<>();
         Impressao impressao = new Impressao();
         ConexaoBanco conexaoBanco = new ConexaoBanco();
         Connection conexao = conexaoBanco.getConexao();
+
         ManipuladorAlunos manipuladorAlunos = new ManipuladorAlunos(conexao);
+        ManipuladorPlanos manipuladorPlanos = new ManipuladorPlanos(conexao);
+
         Scanner entrada = new Scanner(System.in);
         Integer opcao = 0;
 
@@ -22,6 +26,10 @@ public class Main {
             System.out.println("2 - Remover aluno.");
             System.out.println("3 - Alterar aluno.");
             System.out.println("4 - Buscar aluno.");
+            System.out.println("5 - Cadastrar plano.");
+            System.out.println("6 - Remover Plano.");
+            System.out.println("7 - Alterar Plano.");
+            System.out.println("8 - Buscar Plano.");
             opcao = entrada.nextInt();
             entrada.nextLine();
             switch (opcao) {
@@ -33,7 +41,7 @@ public class Main {
                     break;
                 case 2:
                     alunoList = manipuladorAlunos.buscarListaAlunos();
-                    impressao.imprimirListaAlunos(alunoList);
+                    impressao.imprimirLista(alunoList);
                     System.out.println("Digite o CPF do aluno que deseja remover:");
                     String cpf = entrada.nextLine();
                     manipuladorAlunos.removerAluno(cpf);
@@ -41,7 +49,7 @@ public class Main {
                 case 3:
                     Boolean encontrou = false;
                     alunoList = manipuladorAlunos.buscarListaAlunos();
-                    impressao.imprimirListaAlunos(alunoList);
+                    impressao.imprimirLista(alunoList);
                     System.out.println("Digite o CPF do aluno que deseja alterar:");
                     cpf = entrada.nextLine();
                     for (Aluno aluno1 : alunoList) {
@@ -68,6 +76,49 @@ public class Main {
                     }
                     if(encontrou == false)
                         System.out.println("Aluno não encontrado.");
+                    break;
+                case 5:
+                    Plano plano = new Plano();
+                    plano.getDadosPlano();
+                    manipuladorPlanos.inserirPlano(plano);
+                    break;
+                case 6:
+                    planoList = manipuladorPlanos.buscarListaPlanos();
+                    impressao.imprimirLista(planoList);
+                    System.out.println("Digite o codigo do plano que deseja remover:");
+                    Integer codigo = entrada.nextInt();
+                    manipuladorPlanos.removerPlano(codigo);
+                    break;
+                case 7:
+                    encontrou = false;
+                    planoList = manipuladorPlanos.buscarListaPlanos();
+                    impressao.imprimirLista(planoList);
+                    System.out.println("Digite o codigo do plano que deseja alterar:");
+                    codigo = entrada.nextInt();
+                    for (Plano plano1 : planoList) {
+                        if (plano1.getCodigo().equals(codigo)) {
+                            manipuladorPlanos.alterarPlano(codigo);
+                            encontrou = true;
+                            System.out.println("Plano alterado com sucesso.");
+                        }
+                    }
+                    if (encontrou == false)
+                        System.out.println("Plano nao encontrado.");
+                    break;
+                case 8:
+                    encontrou = false;
+                    planoList = manipuladorPlanos.buscarListaPlanos();
+                    System.out.println("Digite o codigo do plano que deseja buscar:");
+                    Integer buscaCodigo = entrada.nextInt();
+                    for (Plano plano1 : planoList) {
+                        if (plano1.getCodigo().equals(buscaCodigo) ) {
+                            System.out.println("Plano encontrado, dados: ");
+                            System.out.println(plano1.toString());
+                            encontrou = true;
+                        }
+                    }
+                    if(encontrou == false)
+                        System.out.println("Plano não encontrado.");
                     break;
             }
         } while(opcao != 0);

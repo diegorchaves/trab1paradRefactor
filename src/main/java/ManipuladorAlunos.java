@@ -63,7 +63,7 @@ public class ManipuladorAlunos {
             stmt.execute();
             System.out.println("Aluno inserido com sucesso.");
         } catch (SQLException e) {
-            System.out.println("Erro ao tentar inserir o aluno.");
+            System.out.println("Erro ao tentar inserir o aluno." );
         }
     }
 

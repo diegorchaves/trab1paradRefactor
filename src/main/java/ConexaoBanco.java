@@ -18,7 +18,7 @@ public class ConexaoBanco {
             Class.forName("org.postgresql.Driver");
             this.conexao = DriverManager.getConnection(URL, USER, PASSWORD);
         } catch(SQLException | ClassNotFoundException e) {
-            System.out.println("Erro ao conectar ao banco de dados.");
+            System.out.println("Erro ao conectar ao banco de dados." + e);
         }
     }
 
