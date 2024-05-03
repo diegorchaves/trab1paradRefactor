@@ -67,15 +67,17 @@ public class ManipuladorAlunos {
         }
     }
 
-    public void alterarAluno(Aluno aluno) {
+    public void alterarAluno(String cpf) {
         String sql = "UPDATE alunos SET nome=?, nascimento=?, numerocartao=? WHERE cpf =?";
-        String dataString = aluno.getDataNascimento().toString();
         try {
+            Aluno aluno = new Aluno();
+            aluno.getDadosAlunoSemCpf(aluno);
+            String dataString = aluno.getDataNascimento().toString();
             PreparedStatement stmt = conexao.prepareStatement(sql);
             stmt.setString(1, aluno.getNome());
             stmt.setString(2, dataString);
             stmt.setString(3, aluno.getCartao());
-            stmt.setString(4, aluno.getCpf());
+            stmt.setString(4, cpf);
             stmt.execute();
         } catch (SQLException e) {
             System.out.println("Erro ao tentar alterar o aluno.");

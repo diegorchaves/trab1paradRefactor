@@ -74,4 +74,19 @@ public class Aluno {
         aluno.setCartao(cartao);
         aluno.setDataNascimento(dataNascimento);
     }
+
+    public void getDadosAlunoSemCpf(Aluno aluno) {
+        String nome, cartao, dataNascimento;
+
+        Scanner entrada = new Scanner(System.in);
+        System.out.println("Digite o nome do aluno: ");
+        nome = entrada.nextLine();
+        System.out.println("Digite a data de nascimento no formato dd/MM/yyyy: ");
+        dataNascimento = entrada.nextLine();
+        System.out.println("Digite o numero do cartao: ");
+        cartao = entrada.nextLine();
+        aluno.setNome(nome);
+        aluno.setCartao(cartao);
+        aluno.setDataNascimento(dataNascimento);
+    }
 }

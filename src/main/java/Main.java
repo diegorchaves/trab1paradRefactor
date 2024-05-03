@@ -20,9 +20,11 @@ public class Main {
             System.out.println("0 - Encerrar programa.");
             System.out.println("1 - Cadastrar aluno.");
             System.out.println("2 - Remover aluno.");
+            System.out.println("3 - Alterar aluno.");
             opcao = entrada.nextInt();
             entrada.nextLine();
             switch (opcao) {
+
                 case 1:
                     Aluno aluno = new Aluno();
                     aluno.getDadosAluno(aluno);
@@ -34,6 +36,19 @@ public class Main {
                     System.out.println("Digite o CPF do aluno que deseja remover:");
                     String cpf = entrada.nextLine();
                     manipuladorAlunos.removerAluno(cpf);
+                    break;
+                case 3:
+                    alunoList = manipuladorAlunos.buscarListaAlunos();
+                    impressao.imprimirListaAlunos(alunoList);
+                    System.out.println("Digite o CPF do aluno que deseja alterar:");
+                    cpf = entrada.nextLine();
+                    for (Aluno aluno1 : alunoList) {
+                        if (aluno1.getCpf().equals(cpf)) {
+                            manipuladorAlunos.alterarAluno(cpf);
+                        } else {
+                            System.out.println("CPF não encontrado.");
+                        }
+                    }
                     break;
             }
         } while(opcao != 0);
