@@ -1,4 +1,5 @@
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -6,6 +7,8 @@ public class Main {
 
     public static void main(String[] args) {
 
+        List<Aluno> alunoList = new ArrayList<>();
+        Impressao impressao = new Impressao();
         ConexaoBanco conexaoBanco = new ConexaoBanco();
         Connection conexao = conexaoBanco.getConexao();
         ManipuladorAlunos manipuladorAlunos = new ManipuladorAlunos(conexao);
@@ -26,6 +29,8 @@ public class Main {
                     manipuladorAlunos.inserirAluno(aluno);
                     break;
                 case 2:
+                    alunoList = manipuladorAlunos.buscarListaAlunos();
+                    impressao.imprimirListaAlunos(alunoList);
                     System.out.println("Digite o CPF do aluno que deseja remover:");
                     String cpf = entrada.nextLine();
                     manipuladorAlunos.removerAluno(cpf);
