@@ -2,6 +2,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +25,12 @@ public class ManipuladorAlunos {
                 Aluno aluno = new Aluno();
                 aluno.setNome(resultado.getString("nome"));
                 aluno.setCpf(resultado.getString("cpf"));
-                aluno.setDataNascimento(resultado.getString("nascimento"));
+                // Puxa a data do banco de dados no formato (yyyy-MM-dd)
+                String dataDoBanco = resultado.getString("nascimento");
+                // Converte a data para o formato (dd/MM/yyyy)
+                String dataDoBancoFormatada = converterDataParaFormatoDesejado(dataDoBanco);
+
+                aluno.setDataNascimento(dataDoBancoFormatada);
                 aluno.setCartao(resultado.getString("numerocartao"));
                 retorno.add(aluno);
             }
@@ -31,6 +38,17 @@ public class ManipuladorAlunos {
             System.out.println("Erro ao tentar listar os alunos.");
         }
         return retorno;
+    }
+
+    private String converterDataParaFormatoDesejado(String dataDoBanco) {
+        // Extrai o ano, mês e dia da string de data do banco de dados
+        String[] partesData = dataDoBanco.split("-");
+        String ano = partesData[0];
+        String mes = partesData[1];
+        String dia = partesData[2];
+
+        // Montar a string de data no formato desejado (dd/MM/yyyy)
+        return dia + "/" + mes + "/" + ano;
     }
 
     public void inserirAluno(Aluno aluno) {
