@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Scanner;
 
 public class Aluno {
 
@@ -54,5 +55,23 @@ public class Aluno {
                 ", dataNascimento=" + dataNascimento +
                 ", cartao='" + cartao + '\'' +
                 '}';
+    }
+
+    public void getDadosAluno(Aluno aluno) {
+        String nome, cpf, cartao, dataNascimento;
+
+        Scanner entrada = new Scanner(System.in);
+        System.out.println("Digite o nome do aluno: ");
+        nome = entrada.nextLine();
+        System.out.println("Digite o cpf do aluno: ");
+        cpf = entrada.nextLine();
+        System.out.println("Digite a data de nascimento no formato dd/MM/yyyy: ");
+        dataNascimento = entrada.nextLine();
+        System.out.println("Digite o numero do cartao: ");
+        cartao = entrada.nextLine();
+        aluno.setNome(nome);
+        aluno.setCpf(cpf);
+        aluno.setCartao(cartao);
+        aluno.setDataNascimento(dataNascimento);
     }
 }

@@ -61,6 +61,7 @@ public class ManipuladorAlunos {
             stmt.setString(3, aluno.getCartao());
             stmt.setString(4, aluno.getCpf());
             stmt.execute();
+            System.out.println("Aluno inserido com sucesso.");
         } catch (SQLException e) {
             System.out.println("Erro ao tentar inserir o aluno.");
         }
@@ -82,11 +83,15 @@ public class ManipuladorAlunos {
     }
 
     public void removerAluno(String cpf) {
-        String sql = "REMOVE FROM alunos WHERE cpf=?";
+        String sql = "DELETE FROM alunos WHERE cpf = ?";
         try {
             PreparedStatement stmt = conexao.prepareStatement(sql);
             stmt.setString(1, cpf);
-            stmt.execute();
+            int linhasAfetadas = stmt.executeUpdate();
+            if(linhasAfetadas > 0)
+                System.out.println("Aluno removido com sucesso.");
+            else
+                System.out.println("CPF incorreto.");
         } catch (SQLException e) {
             System.out.println("Erro ao tentar excluir o aluno.");
         }
