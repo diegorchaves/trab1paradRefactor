@@ -1,11 +1,16 @@
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+
+        MusculosDisponiveis musculosDisponiveis = new MusculosDisponiveis();
+        HashMap<Integer, String> hashMapMusculos = musculosDisponiveis.getHashMapMusculos();
 
         List<Aluno> alunoList = new ArrayList<>();
         List<Plano> planoList = new ArrayList<>();
@@ -36,6 +41,7 @@ public class Main {
             System.out.println("6 - Remover Plano.");
             System.out.println("7 - Alterar Plano.");
             System.out.println("8 - Buscar Plano.");
+            System.out.println("9 - Cadastrar exercício.");
             opcao = entrada.nextInt();
             entrada.nextLine();
             switch (opcao) {
@@ -125,6 +131,11 @@ public class Main {
                     }
                     if(encontrou == false)
                         System.out.println("Plano não encontrado.");
+                    break;
+                case 9:
+                    Exercicio exercicio = new Exercicio();
+                    exercicio.getDadosExercicio(exercicio, hashMapMusculos);
+                    manipuladorExercicios.inserirExercicio(exercicio);
                     break;
             }
         } while(opcao != 0);

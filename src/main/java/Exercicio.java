@@ -1,13 +1,16 @@
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
 public class Exercicio {
     private String nome;
     private Integer codigo;
+    private List<Integer> musculosAtivados = new ArrayList<>();
+
     public String getNome() {
         return nome;
     }
-
 
     public void setNome(String nome) {
         this.nome = nome;
@@ -20,17 +23,42 @@ public class Exercicio {
         this.codigo = codigo;
     }
 
-    public String toString() {
-        return("Codigo: " + codigo +"\tNome: "+nome);
+    public void addMusculosAtivados (Integer codigo) {
+        musculosAtivados.add(codigo);
     }
 
-    public void getDadosExercicio(List<Integer> listaMusculos){
-        Scanner entrada = new Scanner(System.in);
-        Impressao impressao = new Impressao();
-        Integer codigoLocal = 0;
+    public void setMusculosAtivados(List<Integer> musculosAtivados) {
+        this.musculosAtivados = musculosAtivados;
+    }
 
-        System.out.println("Informe o nome do Exercicio: ");
-        this.setNome(entrada.nextLine());
+    @Override
+    public String toString() {
+        return "Exercicio{" +
+                "nome='" + nome + '\'' +
+                ", codigo=" + codigo +
+                ", musculosAtivados=" + musculosAtivados +
+                '}';
+    }
+
+    public List<Integer> getMusculosAtivados() {
+        return musculosAtivados;
+    }
+
+    public void getDadosExercicio(Exercicio exercicio, HashMap<Integer, String> hashMap) {
+        Scanner entrada = new Scanner(System.in);
+        int opcao;
+        System.out.println("Digite o nome do exercicio:");
+        exercicio.setNome(entrada.nextLine());
+        do {
+            System.out.println("Selecione os musculos ativados (0 para sair): ");
+            for (Integer key : hashMap.keySet()) {
+                System.out.println("Chave: " + key + ", Valor: " + hashMap.get(key));
+            }
+            opcao = entrada.nextInt();
+            entrada.nextLine();
+            if(opcao > 0 && opcao < 13 && !(exercicio.musculosAtivados.contains(opcao)))
+                exercicio.musculosAtivados.add(opcao);
+        } while(opcao != 0);
 
     }
 }
