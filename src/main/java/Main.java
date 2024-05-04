@@ -9,12 +9,18 @@ public class Main {
 
         List<Aluno> alunoList = new ArrayList<>();
         List<Plano> planoList = new ArrayList<>();
+        List<Exercicio> exercicioList = new ArrayList<>();
+        List<Musculo> musculoList = new ArrayList<>();
+
         Impressao impressao = new Impressao();
         ConexaoBanco conexaoBanco = new ConexaoBanco();
         Connection conexao = conexaoBanco.getConexao();
 
         ManipuladorAlunos manipuladorAlunos = new ManipuladorAlunos(conexao);
         ManipuladorPlanos manipuladorPlanos = new ManipuladorPlanos(conexao);
+        ManipuladorMusculos manipuladorMusculos = new ManipuladorMusculos(conexao);
+        ManipuladorExercicios manipuladorExercicios = new ManipuladorExercicios(conexao);
+        musculoList = manipuladorMusculos.buscarListaMusculos();
 
         Scanner entrada = new Scanner(System.in);
         Integer opcao = 0;
