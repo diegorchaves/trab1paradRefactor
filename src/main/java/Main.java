@@ -44,6 +44,7 @@ public class Main {
             System.out.println("9 - Cadastrar exercício.");
             System.out.println("10 - Remover exercício.");
             System.out.println("11 - Alterar exercício.");
+            System.out.println("12 - Buscar exercício.");
             opcao = entrada.nextInt();
             entrada.nextLine();
             switch (opcao) {
@@ -161,6 +162,21 @@ public class Main {
                     }
                     if (encontrou == false)
                         System.out.println("Exercicio nao encontrado.");
+                    break;
+                case 12:
+                    encontrou = false;
+                    exercicioList = manipuladorExercicios.buscarListaExercicios();
+                    System.out.println("Digite o codigo do exercicio que deseja buscar:");
+                    buscaCodigo = entrada.nextInt();
+                    for (Exercicio exercicio1 : exercicioList) {
+                        if (exercicio1.getCodigo().equals(buscaCodigo) ) {
+                            System.out.println("Exercicio encontrado, dados: ");
+                            System.out.println(exercicio1.toString());
+                            encontrou = true;
+                        }
+                    }
+                    if(encontrou == false)
+                        System.out.println("Exercicio não encontrado.");
                     break;
             }
         } while(opcao != 0);
