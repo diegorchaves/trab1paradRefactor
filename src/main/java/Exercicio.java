@@ -44,11 +44,11 @@ public class Exercicio {
         return musculosAtivados;
     }
 
-    public void getDadosExercicio(Exercicio exercicio, HashMap<Integer, String> hashMap) {
+    public void getDadosExercicio(HashMap<Integer, String> hashMap) {
         Scanner entrada = new Scanner(System.in);
         int opcao;
         System.out.println("Digite o nome do exercicio:");
-        exercicio.setNome(entrada.nextLine());
+        this.setNome(entrada.nextLine());
         do {
             System.out.println("Selecione os musculos ativados (0 para sair): ");
             for (Integer key : hashMap.keySet()) {
@@ -56,8 +56,8 @@ public class Exercicio {
             }
             opcao = entrada.nextInt();
             entrada.nextLine();
-            if(opcao > 0 && opcao < 13 && !(exercicio.musculosAtivados.contains(opcao)))
-                exercicio.musculosAtivados.add(opcao);
+            if(opcao > 0 && opcao < 13 && !(this.musculosAtivados.contains(opcao)))
+                this.musculosAtivados.add(opcao);
         } while(opcao != 0);
 
     }

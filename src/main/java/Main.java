@@ -42,13 +42,15 @@ public class Main {
             System.out.println("7 - Alterar Plano.");
             System.out.println("8 - Buscar Plano.");
             System.out.println("9 - Cadastrar exercício.");
+            System.out.println("10 - Remover exercício.");
+            System.out.println("11 - Alterar exercício.");
             opcao = entrada.nextInt();
             entrada.nextLine();
             switch (opcao) {
 
                 case 1:
                     Aluno aluno = new Aluno();
-                    aluno.getDadosAluno(aluno);
+                    aluno.getDadosAluno();
                     manipuladorAlunos.inserirAluno(aluno);
                     break;
                 case 2:
@@ -134,8 +136,31 @@ public class Main {
                     break;
                 case 9:
                     Exercicio exercicio = new Exercicio();
-                    exercicio.getDadosExercicio(exercicio, hashMapMusculos);
+                    exercicio.getDadosExercicio(hashMapMusculos);
                     manipuladorExercicios.inserirExercicio(exercicio);
+                    break;
+                case 10:
+                    exercicioList = manipuladorExercicios.buscarListaExercicios();
+                    impressao.imprimirLista(exercicioList);
+                    System.out.println("Digite o codigo do exercicio que deseja remover:");
+                    codigo = entrada.nextInt();
+                    manipuladorExercicios.removerExercicio(codigo);
+                    break;
+                case 11:
+                    encontrou = false;
+                    exercicioList = manipuladorExercicios.buscarListaExercicios();
+                    impressao.imprimirLista(exercicioList);
+                    System.out.println("Digite o codigo do exercicio que deseja alterar:");
+                    codigo = entrada.nextInt();
+                    for (Exercicio exercicio1 : exercicioList) {
+                        if (exercicio1.getCodigo().equals(codigo)) {
+                            manipuladorExercicios.alterarExercicio(codigo, hashMapMusculos);
+                            encontrou = true;
+                            System.out.println("Exercicio alterado com sucesso.");
+                        }
+                    }
+                    if (encontrou == false)
+                        System.out.println("Exercicio nao encontrado.");
                     break;
             }
         } while(opcao != 0);

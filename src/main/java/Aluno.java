@@ -57,7 +57,7 @@ public class Aluno {
                 '}';
     }
 
-    public void getDadosAluno(Aluno aluno) {
+    public void getDadosAluno() {
         String nome, cpf, cartao, dataNascimento;
 
         Scanner entrada = new Scanner(System.in);
@@ -69,10 +69,10 @@ public class Aluno {
         dataNascimento = entrada.nextLine();
         System.out.println("Digite o numero do cartao: ");
         cartao = entrada.nextLine();
-        aluno.setNome(nome);
-        aluno.setCpf(cpf);
-        aluno.setCartao(cartao);
-        aluno.setDataNascimento(dataNascimento);
+        this.setNome(nome);
+        this.setCpf(cpf);
+        this.setCartao(cartao);
+        this.setDataNascimento(dataNascimento);
     }
 
     public void getDadosAlunoSemCpf(Aluno aluno) {

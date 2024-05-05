@@ -47,7 +47,40 @@ public class ManipuladorExercicios {
             stmt.setArray(2, array);
             stmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Erro ao tentar inserir o exercicio.");
+            System.out.println("Erro ao tentar inserir o exercicio. " + e);
+        }
+    }
+
+    public void alterarExercicio(Integer codigo,  HashMap<Integer, String> hashMap) {
+        String sql = "UPDATE exercicios SET nome=?, musculosativados=? WHERE codigo =?";
+        try {
+            Exercicio exercicio = new Exercicio();
+            exercicio.getDadosExercicio(hashMap);
+
+            Integer[] arrayInt = exercicio.getMusculosAtivados().toArray(new Integer[0]);
+            Array array = conexao.createArrayOf("INTEGER", arrayInt);
+
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+            stmt.setString(1, exercicio.getNome());
+            stmt.setArray(2, array);
+            stmt.setInt(3, codigo);
+            stmt.execute();
+        } catch (SQLException e) {
+            System.out.println("Erro ao tentar alterar o plano.");
+        }
+    }
+    public void removerExercicio(Integer codigo) {
+        String sql = "DELETE FROM exercicios WHERE codigo = ?";
+        try {
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+            stmt.setInt(1, codigo);
+            Integer linhasAfetadas = stmt.executeUpdate();
+            if(linhasAfetadas > 0)
+                System.out.println("Exercicio removido com sucesso.");
+            else
+                System.out.println("Codigo incorreto.");
+        } catch (SQLException e) {
+            System.out.println("Erro ao tentar excluir o exercicio.");
         }
     }
 
