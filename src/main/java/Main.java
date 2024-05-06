@@ -17,7 +17,6 @@ public class Main {
         List<Exercicio> exercicioList = new ArrayList<>();
         List<PlanoAtivo> planoAtivoList = new ArrayList<>();
 
-
         Impressao impressao = new Impressao();
         ConexaoBanco conexaoBanco = new ConexaoBanco();
         Connection conexao = conexaoBanco.getConexao();
@@ -26,7 +25,10 @@ public class Main {
         ManipuladorPlanos manipuladorPlanos = new ManipuladorPlanos(conexao);
         ManipuladorExercicios manipuladorExercicios = new ManipuladorExercicios(conexao);
         ManipuladorPlanosAtivos manipuladorPlanosAtivos = new ManipuladorPlanosAtivos(conexao);
+        ManipuladorTreinosCadastrados manipuladorTreinosCadastrados = new ManipuladorTreinosCadastrados(conexao);
+        ManipuladorTreinoEspecificacao manipuladorTreinoEspecificacao = new ManipuladorTreinoEspecificacao(conexao);
 
+        int contadorTreinos = 1;
 
         Scanner entrada = new Scanner(System.in);
         Integer opcao = 0;
@@ -53,6 +55,7 @@ public class Main {
             System.out.println("12 - Buscar exercício.");
             System.out.println("13 - Associar plano");
             System.out.println("14 - Imprimir planos ativos.");
+            System.out.println("15 - Cadastrar novo treino.");
             opcao = entrada.nextInt();
             entrada.nextLine();
             switch (opcao) {
@@ -161,16 +164,16 @@ public class Main {
                         }
                     }
                     if (encontrou == false)
-                        System.out.println("Exercicio nao encontrado.");
+                        System.out.println("Exercicio não encontrado.");
                     break;
                 case 12:
                     encontrou = false;
-                    System.out.println("Digite o codigo do exercicio que deseja buscar:");
+                    System.out.println("Digite o código do exercicio que deseja buscar:");
                     buscaCodigo = entrada.nextInt();
                     for (Exercicio exercicio1 : exercicioList) {
                         if (exercicio1.getCodigo().equals(buscaCodigo) ) {
                             System.out.println("Exercicio encontrado, dados: ");
-                            System.out.println(exercicio1.toString());
+                            System.out.println(exercicio1.toString(hashMapMusculos));
                             encontrou = true;
                         }
                     }
@@ -220,6 +223,19 @@ public class Main {
                     break;
                 case 14:
                     impressao.imprimirLista(planoAtivoList);
+                    break;
+                case 15:
+
+                    TreinoCadastrado treinoCadastrado = new TreinoCadastrado();
+                    treinoCadastrado.getDadosTreinoCadastrado(treinoCadastrado, contadorTreinos);
+                    manipuladorTreinosCadastrados.inserirTreinoCadastrado(treinoCadastrado, contadorTreinos);
+
+                    TreinoEspecificacao treinoEspecificacao = new TreinoEspecificacao();
+                    treinoEspecificacao.setCodigo(contadorTreinos);
+                    treinoEspecificacao.getDadosTreinoEspecificacao(treinoEspecificacao, exercicioList,
+                            impressao, manipuladorTreinoEspecificacao, hashMapMusculos);
+
+                    contadorTreinos++;
                     break;
             }
         } while(opcao != 0);

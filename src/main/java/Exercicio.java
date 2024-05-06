@@ -31,13 +31,21 @@ public class Exercicio {
         this.musculosAtivados = musculosAtivados;
     }
 
-    @Override
-    public String toString() {
+    public String toString(HashMap<Integer, String> hashMapMusculos) {
         return "Exercicio{" +
                 "nome='" + nome + '\'' +
                 ", codigo=" + codigo +
-                ", musculosAtivados=" + musculosAtivados +
+                ", musculosAtivados=" + imprimeHashMap(hashMapMusculos, musculosAtivados) +
                 '}';
+    }
+
+    public StringBuilder imprimeHashMap(HashMap<Integer, String> hashMapMusculos, List<Integer> musculosAtivados) {
+        StringBuilder retorno = new StringBuilder();
+        for (Integer key : hashMapMusculos.keySet()) {
+            if(musculosAtivados.contains(key))
+                retorno.append(hashMapMusculos.get(key));
+        }
+        return retorno;
     }
 
     public List<Integer> getMusculosAtivados() {
