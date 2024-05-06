@@ -21,11 +21,10 @@ public class TreinoCadastrado {
         this.nome = nome;
     }
 
-    public void getDadosTreinoCadastrado(TreinoCadastrado treinoCadastrado, int contadorTreinos) {
+    public void getDadosTreinoCadastrado() {
         Scanner entrada = new Scanner(System.in);
         System.out.println("Informe o nome do treino: ");
-        treinoCadastrado.setNome(entrada.nextLine());
-        treinoCadastrado.setCodigo(contadorTreinos);
+        this.setNome(entrada.nextLine());
     }
 
 }

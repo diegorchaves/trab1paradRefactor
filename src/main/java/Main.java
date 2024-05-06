@@ -227,15 +227,16 @@ public class Main {
                 case 15:
 
                     TreinoCadastrado treinoCadastrado = new TreinoCadastrado();
-                    treinoCadastrado.getDadosTreinoCadastrado(treinoCadastrado, contadorTreinos);
-                    manipuladorTreinosCadastrados.inserirTreinoCadastrado(treinoCadastrado, contadorTreinos);
+                    treinoCadastrado.getDadosTreinoCadastrado();
+                    contadorTreinos = manipuladorTreinosCadastrados.inserirTreinoCadastrado(treinoCadastrado);
+                    treinoCadastrado.setCodigo(contadorTreinos);
 
                     TreinoEspecificacao treinoEspecificacao = new TreinoEspecificacao();
                     treinoEspecificacao.setCodigo(contadorTreinos);
-                    treinoEspecificacao.getDadosTreinoEspecificacao(treinoEspecificacao, exercicioList,
+                    treinoEspecificacao.getDadosTreinoEspecificacao(exercicioList,
                             impressao, manipuladorTreinoEspecificacao, hashMapMusculos);
 
-                    contadorTreinos++;
+
                     break;
             }
         } while(opcao != 0);

@@ -68,7 +68,7 @@ public class TreinoEspecificacao {
         this.descanso = descanso;
     }
 
-    public void getDadosTreinoEspecificacao(TreinoEspecificacao treinoEspecificacao, List<Exercicio> exercicioList, Impressao impressao,
+    public void getDadosTreinoEspecificacao(List<Exercicio> exercicioList, Impressao impressao,
                                             ManipuladorTreinoEspecificacao manipuladorTreinoEspecificacao,
                                             HashMap<Integer, String> hashMapMusculos) {
         int series, repMin, repMax, descanso;
@@ -84,25 +84,25 @@ public class TreinoEspecificacao {
             if(opcao2 == 0)
                 break;
             if (exercicioList.contains(opcao2))
-                treinoEspecificacao.setCodigoExercicio(opcao2);
+                this.setCodigoExercicio(opcao2);
             System.out.println("Digite o numero de series");
             series = entrada.nextInt();
-            treinoEspecificacao.setSeries(series);
+            this.setSeries(series);
             entrada.nextLine();
             System.out.println("Digite o numero de repeticoes minimas: ");
             repMin = entrada.nextInt();
-            treinoEspecificacao.setRepMin(repMin);
+            this.setRepMin(repMin);
             entrada.nextLine();
             System.out.println("Numero de repeticoes maximas: ");
             repMax = entrada.nextInt();
-            treinoEspecificacao.setRepMax(repMax);
+            this.setRepMax(repMax);
             System.out.println("Digite a carga: ");
             carga = entrada.nextDouble();
-            treinoEspecificacao.setCarga(carga);
+            this.setCarga(carga);
             System.out.println("Digite o descanso: ");
             descanso = entrada.nextInt();
-            treinoEspecificacao.setDescanso(descanso);
-            manipuladorTreinoEspecificacao.inserirTreinoEspecificacao(treinoEspecificacao);
+            this.setDescanso(descanso);
+            manipuladorTreinoEspecificacao.inserirTreinoEspecificacao(this);
         } while(opcao2 != 0);
     }
 }

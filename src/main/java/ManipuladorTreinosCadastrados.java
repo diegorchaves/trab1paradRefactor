@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ManipuladorTreinosCadastrados {
@@ -10,16 +11,20 @@ public class ManipuladorTreinosCadastrados {
         this.conexao = conexao;
     }
 
-    public void inserirTreinoCadastrado(TreinoCadastrado treinoCadastrado, int contadorTreinos) {
-        String sql = "INSERT INTO treinoscadastrados (codigo, nome) VALUES (?, ?)";
+    public Integer inserirTreinoCadastrado(TreinoCadastrado treinoCadastrado) {
+        String sql = "INSERT INTO treinoscadastrados (nome) VALUES (?) RETURNING codigo";
         try {
             PreparedStatement stmt = conexao.prepareStatement(sql);
-            stmt.setInt(1, contadorTreinos);
-            stmt.setString(2, treinoCadastrado.getNome());
-            stmt.executeUpdate();
+            stmt.setString(1, treinoCadastrado.getNome());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
 
         } catch (SQLException e) {
-            System.out.println("Impossivel inserir treino.");
+            System.out.println("Impossivel inserir treino." + e);
+            return null;
         }
+        return null;
     }
 }
