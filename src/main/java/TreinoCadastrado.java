@@ -1,14 +1,14 @@
 import java.util.Scanner;
 
 public class TreinoCadastrado {
-    private int codigo;
+    private Integer codigo;
     private String nome;
 
-    public int getCodigo() {
+    public Integer getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(int codigo) {
+    public void setCodigo(Integer codigo) {
         this.codigo = codigo;
     }
 
@@ -25,6 +25,14 @@ public class TreinoCadastrado {
         Scanner entrada = new Scanner(System.in);
         System.out.println("Informe o nome do treino: ");
         this.setNome(entrada.nextLine());
+    }
+
+    @Override
+    public String toString() {
+        return "Treino{" +
+                "nome='" + nome + '\'' +
+                "codigo='" + codigo + '\'' +
+                '}';
     }
 
 }

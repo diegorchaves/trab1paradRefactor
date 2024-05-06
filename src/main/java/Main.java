@@ -16,6 +16,7 @@ public class Main {
         List<Plano> planoList = new ArrayList<>();
         List<Exercicio> exercicioList = new ArrayList<>();
         List<PlanoAtivo> planoAtivoList = new ArrayList<>();
+        List<TreinoCadastrado> treinoList = new ArrayList<>();
 
         Impressao impressao = new Impressao();
         ConexaoBanco conexaoBanco = new ConexaoBanco();
@@ -38,6 +39,7 @@ public class Main {
             planoList = manipuladorPlanos.buscarListaPlanos();
             exercicioList = manipuladorExercicios.buscarListaExercicios();
             planoAtivoList = manipuladorPlanosAtivos.buscarListaPlanosAtivos();
+            treinoList = manipuladorTreinosCadastrados.buscarListaTreinos();
 
             System.out.println("Digite a opcao desejada: ");
             System.out.println("0 - Encerrar programa.");
@@ -56,6 +58,7 @@ public class Main {
             System.out.println("13 - Associar plano");
             System.out.println("14 - Imprimir planos ativos.");
             System.out.println("15 - Cadastrar novo treino.");
+            System.out.println("16 - Iniciar Treino.");
             opcao = entrada.nextInt();
             entrada.nextLine();
             switch (opcao) {
@@ -83,7 +86,7 @@ public class Main {
                             System.out.println("Aluno alterado com sucesso.");
                         }
                     }
-                    if (encontrou == false)
+                    if (!encontrou)
                         System.out.println("Aluno nao encontrado.");
                     break;
                 case 4:
@@ -93,11 +96,11 @@ public class Main {
                     for (Aluno aluno1 : alunoList) {
                         if (aluno1.getCpf().equals(busca) || aluno1.getNome().equals(busca)) {
                             System.out.println("Aluno encontrado, dados: ");
-                            System.out.println(aluno1.toString());
+                            System.out.println(aluno1);
                             encontrou = true;
                         }
                     }
-                    if(encontrou == false)
+                    if(!encontrou)
                         System.out.println("Aluno não encontrado.");
                     break;
                 case 5:
@@ -123,7 +126,7 @@ public class Main {
                             System.out.println("Plano alterado com sucesso.");
                         }
                     }
-                    if (encontrou == false)
+                    if (!encontrou)
                         System.out.println("Plano nao encontrado.");
                     break;
                 case 8:
@@ -133,11 +136,11 @@ public class Main {
                     for (Plano plano1 : planoList) {
                         if (plano1.getCodigo().equals(buscaCodigo) ) {
                             System.out.println("Plano encontrado, dados: ");
-                            System.out.println(plano1.toString());
+                            System.out.println(plano1);
                             encontrou = true;
                         }
                     }
-                    if(encontrou == false)
+                    if(!encontrou)
                         System.out.println("Plano não encontrado.");
                     break;
                 case 9:
@@ -163,7 +166,7 @@ public class Main {
                             System.out.println("Exercicio alterado com sucesso.");
                         }
                     }
-                    if (encontrou == false)
+                    if (!encontrou)
                         System.out.println("Exercicio não encontrado.");
                     break;
                 case 12:
@@ -177,7 +180,7 @@ public class Main {
                             encontrou = true;
                         }
                     }
-                    if(encontrou == false)
+                    if(!encontrou)
                         System.out.println("Exercicio não encontrado.");
                     break;
                 case 13:
@@ -196,7 +199,7 @@ public class Main {
                             alunoLocal = aluno1.getCpf();
                         }
                     }
-                    if (encontrou == false){
+                    if (!encontrou){
                         System.out.println("Aluno não encontrado");
                         break;
                     }
@@ -212,7 +215,7 @@ public class Main {
                             planoLocal = plano1.getNome();
                         }
                     }
-                    if (encontrou == false){
+                    if (!encontrou){
                         System.out.println("Plano não encontrado");
                         break;
                     }
@@ -235,6 +238,30 @@ public class Main {
                     treinoEspecificacao.setCodigo(contadorTreinos);
                     treinoEspecificacao.getDadosTreinoEspecificacao(exercicioList,
                             impressao, manipuladorTreinoEspecificacao, hashMapMusculos);
+
+
+                    break;
+                case 16:
+                    impressao.imprimirLista(treinoList);
+                    System.out.println("Digite o código do treino que deseja iniciar");
+                    codigo = entrada.nextInt();
+                    Integer treinoLocal = 0;
+
+                    for(TreinoCadastrado treino : treinoList){
+                        if(treino.getCodigo() == codigo){
+                            treinoLocal = treino.getCodigo();
+                        }
+                    }
+                    if (treinoLocal == 0){
+                        System.out.println("Treino não encontrado");
+                        break;
+                    }
+
+                    if(manipuladorTreinoEspecificacao.treinando(treinoLocal)){
+                        System.out.println("Treino Finalizado com sucesso!");
+                    }else{
+                        System.out.println("Treino Finalizado com erros!");
+                    }
 
 
                     break;
