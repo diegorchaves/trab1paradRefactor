@@ -15,7 +15,8 @@ public class Main {
         List<Aluno> alunoList = new ArrayList<>();
         List<Plano> planoList = new ArrayList<>();
         List<Exercicio> exercicioList = new ArrayList<>();
-        List<Musculo> musculoList = new ArrayList<>();
+        List<PlanoAtivo> planoAtivoList = new ArrayList<>();
+
 
         Impressao impressao = new Impressao();
         ConexaoBanco conexaoBanco = new ConexaoBanco();
@@ -23,14 +24,19 @@ public class Main {
 
         ManipuladorAlunos manipuladorAlunos = new ManipuladorAlunos(conexao);
         ManipuladorPlanos manipuladorPlanos = new ManipuladorPlanos(conexao);
-        ManipuladorMusculos manipuladorMusculos = new ManipuladorMusculos(conexao);
         ManipuladorExercicios manipuladorExercicios = new ManipuladorExercicios(conexao);
-        musculoList = manipuladorMusculos.buscarListaMusculos();
+        ManipuladorPlanosAtivos manipuladorPlanosAtivos = new ManipuladorPlanosAtivos(conexao);
+
 
         Scanner entrada = new Scanner(System.in);
         Integer opcao = 0;
 
         do {
+            alunoList = manipuladorAlunos.buscarListaAlunos();
+            planoList = manipuladorPlanos.buscarListaPlanos();
+            exercicioList = manipuladorExercicios.buscarListaExercicios();
+            planoAtivoList = manipuladorPlanosAtivos.buscarListaPlanosAtivos();
+
             System.out.println("Digite a opcao desejada: ");
             System.out.println("0 - Encerrar programa.");
             System.out.println("1 - Cadastrar aluno.");
@@ -45,6 +51,8 @@ public class Main {
             System.out.println("10 - Remover exercício.");
             System.out.println("11 - Alterar exercício.");
             System.out.println("12 - Buscar exercício.");
+            System.out.println("13 - Associar plano");
+            System.out.println("14 - Imprimir planos ativos.");
             opcao = entrada.nextInt();
             entrada.nextLine();
             switch (opcao) {
@@ -55,7 +63,6 @@ public class Main {
                     manipuladorAlunos.inserirAluno(aluno);
                     break;
                 case 2:
-                    alunoList = manipuladorAlunos.buscarListaAlunos();
                     impressao.imprimirLista(alunoList);
                     System.out.println("Digite o CPF do aluno que deseja remover:");
                     String cpf = entrada.nextLine();
@@ -63,7 +70,6 @@ public class Main {
                     break;
                 case 3:
                     Boolean encontrou = false;
-                    alunoList = manipuladorAlunos.buscarListaAlunos();
                     impressao.imprimirLista(alunoList);
                     System.out.println("Digite o CPF do aluno que deseja alterar:");
                     cpf = entrada.nextLine();
@@ -79,7 +85,6 @@ public class Main {
                     break;
                 case 4:
                     encontrou = false;
-                    alunoList = manipuladorAlunos.buscarListaAlunos();
                     System.out.println("Digite o nome ou cpf do aluno que deseja buscar:");
                     String busca = entrada.nextLine();
                     for (Aluno aluno1 : alunoList) {
@@ -98,7 +103,6 @@ public class Main {
                     manipuladorPlanos.inserirPlano(plano);
                     break;
                 case 6:
-                    planoList = manipuladorPlanos.buscarListaPlanos();
                     impressao.imprimirLista(planoList);
                     System.out.println("Digite o codigo do plano que deseja remover:");
                     Integer codigo = entrada.nextInt();
@@ -106,7 +110,6 @@ public class Main {
                     break;
                 case 7:
                     encontrou = false;
-                    planoList = manipuladorPlanos.buscarListaPlanos();
                     impressao.imprimirLista(planoList);
                     System.out.println("Digite o codigo do plano que deseja alterar:");
                     codigo = entrada.nextInt();
@@ -122,7 +125,6 @@ public class Main {
                     break;
                 case 8:
                     encontrou = false;
-                    planoList = manipuladorPlanos.buscarListaPlanos();
                     System.out.println("Digite o codigo do plano que deseja buscar:");
                     Integer buscaCodigo = entrada.nextInt();
                     for (Plano plano1 : planoList) {
@@ -141,7 +143,6 @@ public class Main {
                     manipuladorExercicios.inserirExercicio(exercicio);
                     break;
                 case 10:
-                    exercicioList = manipuladorExercicios.buscarListaExercicios();
                     impressao.imprimirLista(exercicioList);
                     System.out.println("Digite o codigo do exercicio que deseja remover:");
                     codigo = entrada.nextInt();
@@ -149,7 +150,6 @@ public class Main {
                     break;
                 case 11:
                     encontrou = false;
-                    exercicioList = manipuladorExercicios.buscarListaExercicios();
                     impressao.imprimirLista(exercicioList);
                     System.out.println("Digite o codigo do exercicio que deseja alterar:");
                     codigo = entrada.nextInt();
@@ -165,7 +165,6 @@ public class Main {
                     break;
                 case 12:
                     encontrou = false;
-                    exercicioList = manipuladorExercicios.buscarListaExercicios();
                     System.out.println("Digite o codigo do exercicio que deseja buscar:");
                     buscaCodigo = entrada.nextInt();
                     for (Exercicio exercicio1 : exercicioList) {
@@ -177,6 +176,50 @@ public class Main {
                     }
                     if(encontrou == false)
                         System.out.println("Exercicio não encontrado.");
+                    break;
+                case 13:
+                    PlanoAtivo planoAtivo = new PlanoAtivo();
+                    String alunoLocal;
+                    String planoLocal;
+                    encontrou = false;
+
+                    impressao.imprimirLista(alunoList);
+                    System.out.println("Informe o nome ou cpf do aluno: ");
+                    alunoLocal = entrada.nextLine();
+
+                    for(Aluno aluno1 : alunoList){
+                        if(aluno1.getCpf().equals(alunoLocal) || aluno1.getNome().equals(alunoLocal)){
+                            encontrou = true;
+                            alunoLocal = aluno1.getCpf();
+                        }
+                    }
+                    if (encontrou == false){
+                        System.out.println("Aluno não encontrado");
+                        break;
+                    }
+
+                    encontrou = false;
+                    impressao.imprimirLista(planoList);
+                    System.out.println("Informe o codigo do plano: ");
+                    planoLocal = entrada.nextLine();
+
+                    for(Plano plano1 : planoList){
+                        if(plano1.getCodigo().toString().equals(planoLocal)){
+                            encontrou = true;
+                            planoLocal = plano1.getNome();
+                        }
+                    }
+                    if (encontrou == false){
+                        System.out.println("Plano não encontrado");
+                        break;
+                    }
+
+                    planoAtivo.getDadosPlanoAtivo(planoLocal, alunoLocal);
+
+                    manipuladorPlanosAtivos.assinarPlano(planoAtivo);
+                    break;
+                case 14:
+                    impressao.imprimirLista(planoAtivoList);
                     break;
             }
         } while(opcao != 0);
