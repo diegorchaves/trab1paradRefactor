@@ -43,6 +43,9 @@ public class ManipuladorTreinoEspecificacao {
 
             while (rs.next()) {
                 Integer codexe = rs.getInt("codigoexercicio");
+                double cargaExe = rs.getDouble("carga");
+                Integer seriesExe = rs.getInt("series");
+                Integer descansoExe = rs.getInt("descanso");
                 String nomeExercicio = "ERRO";
                 double carga = 0;
                 for(Exercicio exercicio : exercicioList) {
@@ -51,8 +54,11 @@ public class ManipuladorTreinoEspecificacao {
                         carga = rs.getDouble("carga");
                     }
                 }
-                System.out.println("Você realizou o exercício " + nomeExercicio + "? 1 (Sim) 0 (Não)");
+                System.out.println("Você realizou o exercício " + nomeExercicio + " com carga " + cargaExe
+                        + " kg em " + seriesExe + " series com descanso de " + descansoExe +
+                        " segundos? 1 (Sim) 0 (Não)");
                 if(entrada.nextInt() == 1){
+                    manipuladorRelatorios.inserirRelatorioTreino(data, cpfLocal, nomeExercicio, carga);
                     System.out.println("Deseja alterar a carga? 1 (Sim) 0 (Não)");
                     if(entrada.nextInt() == 1){
                         System.out.println("Digite a nova carga : ");
@@ -69,7 +75,6 @@ public class ManipuladorTreinoEspecificacao {
                             System.out.println("Não foi atualizar a carga." + e);
                             return false;
                         }
-                        manipuladorRelatorios.inserirRelatorioTreino(data, cpfLocal, nomeExercicio, carga);
                     }
                 }
 
