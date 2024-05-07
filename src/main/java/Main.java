@@ -28,6 +28,7 @@ public class Main {
         ManipuladorPlanosAtivos manipuladorPlanosAtivos = new ManipuladorPlanosAtivos(conexao);
         ManipuladorTreinosCadastrados manipuladorTreinosCadastrados = new ManipuladorTreinosCadastrados(conexao);
         ManipuladorTreinoEspecificacao manipuladorTreinoEspecificacao = new ManipuladorTreinoEspecificacao(conexao);
+        ManipuladorRelatorios manipuladorRelatorios = new ManipuladorRelatorios(conexao);
 
         int contadorTreinos = 1;
 
@@ -242,27 +243,40 @@ public class Main {
 
                     break;
                 case 16:
-                    impressao.imprimirLista(treinoList);
-                    System.out.println("Digite o código do treino que deseja iniciar");
-                    codigo = entrada.nextInt();
-                    Integer treinoLocal = 0;
+                    String cpfLocal = "erro";
+                    impressao.imprimirLista(alunoList);
+                    System.out.println("Digite o CPF do aluno: ");
+                    cpfLocal = entrada.nextLine();
+                    for(Aluno aluno1 : alunoList) {
+                        if(aluno1.getCpf().equals(cpfLocal))
+                            System.out.println("Aluno encontrado.");
+                    }
+                    if(cpfLocal.equals("erro")) {
+                        System.out.println("CPF incorreto.");
+                    }
+                    else {
+                        impressao.imprimirLista(treinoList);
+                        System.out.println("Digite o código do treino que deseja iniciar");
+                        codigo = entrada.nextInt();
+                        Integer treinoLocal = 0;
 
-                    for(TreinoCadastrado treino : treinoList){
-                        if(treino.getCodigo() == codigo){
-                            treinoLocal = treino.getCodigo();
+                        for(TreinoCadastrado treino : treinoList){
+                            if(treino.getCodigo() == codigo){
+                                treinoLocal = treino.getCodigo();
+                            }
+                        }
+                        if (treinoLocal == 0){
+                            System.out.println("Treino não encontrado");
+                            break;
+                        }
+
+                        if(manipuladorTreinoEspecificacao.treinando(treinoLocal, exercicioList, cpfLocal,
+                                manipuladorRelatorios)){
+                            System.out.println("Treino Finalizado com sucesso!");
+                        }else{
+                            System.out.println("Treino Finalizado com erros!");
                         }
                     }
-                    if (treinoLocal == 0){
-                        System.out.println("Treino não encontrado");
-                        break;
-                    }
-
-                    if(manipuladorTreinoEspecificacao.treinando(treinoLocal)){
-                        System.out.println("Treino Finalizado com sucesso!");
-                    }else{
-                        System.out.println("Treino Finalizado com erros!");
-                    }
-
 
                     break;
             }

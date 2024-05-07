@@ -2,6 +2,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
 public class ManipuladorTreinoEspecificacao {
@@ -29,8 +31,10 @@ public class ManipuladorTreinoEspecificacao {
         }
     }
 
-    public boolean treinando(Integer codTreino) {
+    public boolean treinando(Integer codTreino, List<Exercicio> exercicioList, String cpfLocal,
+                             ManipuladorRelatorios manipuladorRelatorios) {
         Scanner entrada = new Scanner(System.in);
+        LocalDate data = LocalDate.now();
         String sql = "SELECT * FROM treinosespecificacoes WHERE codigo = ?";
         try {
             PreparedStatement stmt = conexao.prepareStatement(sql);
@@ -39,12 +43,20 @@ public class ManipuladorTreinoEspecificacao {
 
             while (rs.next()) {
                 Integer codexe = rs.getInt("codigoexercicio");
-                System.out.println("Você realizou o exercício " + codexe + "(aqui tem que por o nome do exe)? 1 (Sim) 0 (Não)");
+                String nomeExercicio = "ERRO";
+                double carga = 0;
+                for(Exercicio exercicio : exercicioList) {
+                    if(exercicio.getCodigo().equals(codexe)) {
+                        nomeExercicio = exercicio.getNome();
+                        carga = rs.getDouble("carga");
+                    }
+                }
+                System.out.println("Você realizou o exercício " + nomeExercicio + "? 1 (Sim) 0 (Não)");
                 if(entrada.nextInt() == 1){
                     System.out.println("Deseja alterar a carga? 1 (Sim) 0 (Não)");
                     if(entrada.nextInt() == 1){
                         System.out.println("Digite a nova carga : ");
-                        double carga = entrada.nextDouble();
+                        carga = entrada.nextDouble();
 
                         String sql2 = "UPDATE treinosespecificacoes SET carga = ? WHERE codigo = ? AND codigoexercicio = ?";
                         try {
@@ -57,6 +69,7 @@ public class ManipuladorTreinoEspecificacao {
                             System.out.println("Não foi atualizar a carga." + e);
                             return false;
                         }
+                        manipuladorRelatorios.inserirRelatorioTreino(data, cpfLocal, nomeExercicio, carga);
                     }
                 }
 

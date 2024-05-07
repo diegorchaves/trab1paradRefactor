@@ -74,17 +74,29 @@ public class TreinoEspecificacao {
         int series, repMin, repMax, descanso;
         Scanner entrada = new Scanner(System.in);
         int opcao2;
+        Boolean encontrouCodExe = false;
         double carga;
         do {
+            encontrouCodExe = false;
             for (Exercicio exercicio : exercicioList) {
                 System.out.println(exercicio.toString(hashMapMusculos));
             }
             System.out.println("Digite o codigo do exercicio que quer inserir no treino (0 para sair): ");
             opcao2 = entrada.nextInt();
+            entrada.nextLine();
             if(opcao2 == 0)
                 break;
-            if (exercicioList.contains(opcao2))
-                this.setCodigoExercicio(opcao2);
+            for(Exercicio exercicio : exercicioList) {
+                if(exercicio.getCodigo() == opcao2) {
+                    this.setCodigoExercicio(opcao2);
+                    encontrouCodExe = true;
+                    break;
+                }
+            }
+            if(encontrouCodExe == false) {
+                System.out.println("Codigo do exercicio nao encontrado.");
+                continue;
+            }
             System.out.println("Digite o numero de series");
             series = entrada.nextInt();
             this.setSeries(series);
