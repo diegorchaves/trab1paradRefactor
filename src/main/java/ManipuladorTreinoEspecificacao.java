@@ -91,4 +91,19 @@ public class ManipuladorTreinoEspecificacao {
             System.out.println("Não foi atualizar a carga." + e);
         }
     }
+
+    public void removerTreino(Integer codigo) {
+        String sql = "DELETE FROM treinosespecificacoes WHERE codigo = ?";
+        try {
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+            stmt.setInt(1, codigo);
+            int linhasAfetadas = stmt.executeUpdate();
+            if(linhasAfetadas > 0)
+            System.out.println("Exercicios do treino removidos com sucesso.");
+            else
+            System.out.println("Não existem exercicios a serem removidos.");
+        } catch (SQLException e) {
+            System.out.println("Erro ao tentar excluir os exercicios do treino.");
+        }
+    }
 }

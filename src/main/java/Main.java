@@ -62,6 +62,8 @@ public class Main {
             System.out.println("16 - Iniciar Treino.");
             System.out.println("17 - Ver presencas.");
             System.out.println("18 - Ver evolucao de cargas.");
+            System.out.println("19 - Remover Treino.");
+            System.out.println("20 - Alterar nome Treino.");
             opcao = entrada.nextInt();
             entrada.nextLine();
             switch (opcao) {
@@ -331,6 +333,28 @@ public class Main {
                         }
                     }
 
+                    break;
+                case 19:
+                    impressao.imprimirLista(treinoList);
+                    System.out.println("Digite o codigo do treino que deseja remover:");
+                     codigo = entrada.nextInt();
+                    manipuladorTreinosCadastrados.removerTreino(codigo, manipuladorTreinoEspecificacao);
+                    break;
+                case 20:
+                    encontrou = false;
+                    impressao.imprimirLista(treinoList);
+                    // POR ENQUANTO SÓ ALTERA NOME
+                    System.out.println("Digite o codigo do treino que deseja alterar:");
+                    codigo = entrada.nextInt();
+                    for (TreinoCadastrado treinoCadastrado1 : treinoList) {
+                        if (treinoCadastrado1.getCodigo() == codigo) {
+                            manipuladorTreinosCadastrados.alterarTreino(codigo);
+                            encontrou = true;
+                            System.out.println("Treino alterado com sucesso.");
+                        }
+                    }
+                    if (!encontrou)
+                        System.out.println("Treino nao encontrado.");
                     break;
             }
         } while(opcao != 0);
