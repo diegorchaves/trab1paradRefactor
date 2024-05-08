@@ -60,6 +60,8 @@ public class Main {
             System.out.println("14 - Imprimir planos ativos.");
             System.out.println("15 - Cadastrar novo treino.");
             System.out.println("16 - Iniciar Treino.");
+            System.out.println("17 - Ver presencas.");
+            System.out.println("18 - Ver evolucao de cargas.");
             opcao = entrada.nextInt();
             entrada.nextLine();
             switch (opcao) {
@@ -150,14 +152,18 @@ public class Main {
                     manipuladorExercicios.inserirExercicio(exercicio);
                     break;
                 case 10:
-                    impressao.imprimirLista(exercicioList);
+                    for (Exercicio exercicio1 : exercicioList) {
+                        exercicio1.imprimeExercicio(exercicio1);
+                    }
                     System.out.println("Digite o codigo do exercicio que deseja remover:");
                     codigo = entrada.nextInt();
                     manipuladorExercicios.removerExercicio(codigo);
                     break;
                 case 11:
                     encontrou = false;
-                    impressao.imprimirLista(exercicioList);
+                    for (Exercicio exercicio1 : exercicioList) {
+                        exercicio1.imprimeExercicio(exercicio1);
+                    }
                     System.out.println("Digite o codigo do exercicio que deseja alterar:");
                     codigo = entrada.nextInt();
                     for (Exercicio exercicio1 : exercicioList) {
@@ -275,6 +281,53 @@ public class Main {
                             System.out.println("Treino Finalizado com sucesso!");
                         }else{
                             System.out.println("Treino Finalizado com erros!");
+                        }
+                    }
+
+                    break;
+
+                case 17:
+                    String cpfAluno = "erro";
+                    impressao.imprimirLista(alunoList);
+                    System.out.println("Digite o CPF do aluno: ");
+                    cpfAluno = entrada.nextLine();
+                    for(Aluno aluno1 : alunoList) {
+                        if(aluno1.getCpf().equals(cpfAluno))
+                            System.out.println("Aluno encontrado.");
+                    }
+                    if(cpfAluno.equals("erro")) {
+                        System.out.println("CPF incorreto.");
+                    }
+                    else {
+                        manipuladorRelatorios.buscarPresencas(cpfAluno);
+                    }
+
+                    break;
+
+                case 18:
+                    cpfAluno = "erro";
+                    impressao.imprimirLista(alunoList);
+                    System.out.println("Digite o CPF do aluno: ");
+                    cpfAluno = entrada.nextLine();
+                    for(Aluno aluno1 : alunoList) {
+                        if(aluno1.getCpf().equals(cpfAluno))
+                            System.out.println("Aluno encontrado.");
+                    }
+                    if(cpfAluno.equals("erro")) {
+                        System.out.println("CPF incorreto.");
+                    }
+                    else {
+                        String nomeExercicio = "erro";
+                        int codigo1;
+                        for (Exercicio exercicio1 : exercicioList) {
+                            exercicio1.imprimeExercicio(exercicio1);
+                        }
+                        System.out.println("Digite o codigo do exercicio que deseja consultar:");
+                        codigo1 = entrada.nextInt();
+                        for (Exercicio exercicio1 : exercicioList) {
+                            if (exercicio1.getCodigo().equals(codigo1)) {
+                                manipuladorRelatorios.evolucaoCargas(exercicio1.getNome(), cpfAluno);
+                            }
                         }
                     }
 

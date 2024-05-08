@@ -61,20 +61,7 @@ public class ManipuladorTreinoEspecificacao {
                     manipuladorRelatorios.inserirRelatorioTreino(data, cpfLocal, nomeExercicio, carga);
                     System.out.println("Deseja alterar a carga? 1 (Sim) 0 (Não)");
                     if(entrada.nextInt() == 1){
-                        System.out.println("Digite a nova carga : ");
-                        carga = entrada.nextDouble();
-
-                        String sql2 = "UPDATE treinosespecificacoes SET carga = ? WHERE codigo = ? AND codigoexercicio = ?";
-                        try {
-                            PreparedStatement stmt2 = conexao.prepareStatement(sql2);
-                            stmt2.setDouble(1, carga);
-                            stmt2.setInt(2, codTreino);
-                            stmt2.setInt(3, codexe);
-                            int rowsUpdated = stmt2.executeUpdate();
-                        } catch(SQLException e) {
-                            System.out.println("Não foi atualizar a carga." + e);
-                            return false;
-                        }
+                        atualizarCarga(entrada, codTreino, codexe);
                     }
                 }
 
@@ -86,5 +73,22 @@ public class ManipuladorTreinoEspecificacao {
         }
 
         return true;
+    }
+
+    public void atualizarCarga(Scanner entrada, Integer codTreino, Integer codexe) {
+        double carga;
+        System.out.println("Digite a nova carga : ");
+        carga = entrada.nextDouble();
+
+        String sql2 = "UPDATE treinosespecificacoes SET carga = ? WHERE codigo = ? AND codigoexercicio = ?";
+        try {
+            PreparedStatement stmt2 = conexao.prepareStatement(sql2);
+            stmt2.setDouble(1, carga);
+            stmt2.setInt(2, codTreino);
+            stmt2.setInt(3, codexe);
+            stmt2.executeUpdate();
+        } catch(SQLException e) {
+            System.out.println("Não foi atualizar a carga." + e);
+        }
     }
 }

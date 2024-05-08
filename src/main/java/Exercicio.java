@@ -69,4 +69,9 @@ public class Exercicio {
         } while(opcao != 0);
 
     }
+
+    public void imprimeExercicio(Exercicio exercicio)
+    {
+        System.out.println("Codigo: " + exercicio.getCodigo() + " - " + exercicio.getNome());
+    }
 }
