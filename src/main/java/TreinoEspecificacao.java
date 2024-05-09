@@ -117,4 +117,50 @@ public class TreinoEspecificacao {
             manipuladorTreinoEspecificacao.inserirTreinoEspecificacao(this);
         } while(opcao2 != 0);
     }
+
+    public void getDadosTreinoEspecificacaoCerto(List<Exercicio> exercicioList,
+                                            HashMap<Integer, String> hashMapMusculos) {
+        int series, repMin, repMax, descanso;
+        Scanner entrada = new Scanner(System.in);
+        int opcao2;
+        Boolean encontrouCodExe = false;
+        double carga;
+            encontrouCodExe = false;
+            for (Exercicio exercicio : exercicioList) {
+                System.out.println(exercicio.toString(hashMapMusculos));
+            }
+            System.out.println("Digite o codigo do exercicio que quer inserir no treino (0 para sair): ");
+            opcao2 = entrada.nextInt();
+            entrada.nextLine();
+            if(opcao2 == 0)
+                return;
+            for(Exercicio exercicio : exercicioList) {
+                if(exercicio.getCodigo() == opcao2) {
+                    this.setCodigoExercicio(opcao2);
+                    encontrouCodExe = true;
+                    break;
+                }
+            }
+            if(encontrouCodExe == false) {
+                System.out.println("Codigo do exercicio nao encontrado.");
+                return;
+            }
+            System.out.println("Digite o numero de series");
+            series = entrada.nextInt();
+            this.setSeries(series);
+            entrada.nextLine();
+            System.out.println("Digite o numero de repeticoes minimas: ");
+            repMin = entrada.nextInt();
+            this.setRepMin(repMin);
+            entrada.nextLine();
+            System.out.println("Numero de repeticoes maximas: ");
+            repMax = entrada.nextInt();
+            this.setRepMax(repMax);
+            System.out.println("Digite a carga: ");
+            carga = entrada.nextDouble();
+            this.setCarga(carga);
+            System.out.println("Digite o descanso: ");
+            descanso = entrada.nextInt();
+            this.setDescanso(descanso);
+    }
 }

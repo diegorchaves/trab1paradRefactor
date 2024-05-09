@@ -17,6 +17,7 @@ public class Main {
         List<Exercicio> exercicioList = new ArrayList<>();
         List<PlanoAtivo> planoAtivoList = new ArrayList<>();
         List<TreinoCadastrado> treinoList = new ArrayList<>();
+        List<TreinoEspecificacao> treinoEspecificacaoList = new ArrayList<>();
 
         Impressao impressao = new Impressao();
         ConexaoBanco conexaoBanco = new ConexaoBanco();
@@ -41,6 +42,7 @@ public class Main {
             exercicioList = manipuladorExercicios.buscarListaExercicios();
             planoAtivoList = manipuladorPlanosAtivos.buscarListaPlanosAtivos();
             treinoList = manipuladorTreinosCadastrados.buscarListaTreinos();
+            treinoEspecificacaoList = manipuladorTreinoEspecificacao.buscarListaTreinos();
 
             System.out.println("Digite a opcao desejada: ");
             System.out.println("0 - Encerrar programa.");
@@ -64,6 +66,7 @@ public class Main {
             System.out.println("18 - Ver evolucao de cargas.");
             System.out.println("19 - Remover Treino.");
             System.out.println("20 - Alterar nome Treino.");
+            System.out.println("21 - Alterar exercicios Treino.");
             opcao = entrada.nextInt();
             entrada.nextLine();
             switch (opcao) {
@@ -352,6 +355,30 @@ public class Main {
                             encontrou = true;
                             System.out.println("Treino alterado com sucesso.");
                         }
+                    }
+                    if (!encontrou)
+                        System.out.println("Treino nao encontrado.");
+                    break;
+                case 21:
+                    encontrou = false;
+                    impressao.imprimirLista(treinoList);
+                    System.out.println("Digite o codigo do treino que deseja alterar:");
+                    codigo = entrada.nextInt();
+                    for (TreinoEspecificacao treinoEspecificacao1 : treinoEspecificacaoList) {
+                        if(treinoEspecificacao1.getCodigo() == codigo){
+                            encontrou = true;
+                            System.out.println("Exercicio cod: " + treinoEspecificacao1.getCodigoExercicio());
+                            System.out.println("Deseja alterar esse exercício? 1 (Sim) 0 (Não)");
+                            Integer alterar = entrada.nextInt();
+
+                            if(alterar == 1){
+                                TreinoEspecificacao treinoEspecificacaoLocal = new TreinoEspecificacao();
+                                treinoEspecificacaoLocal.getDadosTreinoEspecificacaoCerto(exercicioList, hashMapMusculos);
+                                manipuladorTreinoEspecificacao.alterarExerciciosTreino(codigo, treinoEspecificacaoLocal);
+                                System.out.println("Exercicio do treino alterado com sucesso.");
+                            }
+                        }
+
                     }
                     if (!encontrou)
                         System.out.println("Treino nao encontrado.");

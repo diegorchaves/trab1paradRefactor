@@ -3,6 +3,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,6 +15,28 @@ public class ManipuladorTreinoEspecificacao {
         this.conexao = conexao;
     }
 
+    public List<TreinoEspecificacao> buscarListaTreinos() {
+        String sql = "SELECT * FROM treinosespecificacoes";
+        List<TreinoEspecificacao> retorno = new ArrayList<>();
+        try {
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+            ResultSet resultado = stmt.executeQuery();
+            while (resultado.next()) {
+                TreinoEspecificacao treinoEspecificacao = new TreinoEspecificacao();
+                treinoEspecificacao.setCodigo(resultado.getInt("codigo"));
+                treinoEspecificacao.setCodigoExercicio(resultado.getInt("codigoexercicio"));
+                treinoEspecificacao.setSeries(resultado.getInt("series"));
+                treinoEspecificacao.setRepMin(resultado.getInt("repmin"));
+                treinoEspecificacao.setRepMax(resultado.getInt("repmax"));
+                treinoEspecificacao.setCarga(resultado.getDouble("carga"));
+                treinoEspecificacao.setDescanso(resultado.getInt("descanso"));
+                retorno.add(treinoEspecificacao);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao tentar listar os Treinos especificacoes." + e);
+        }
+        return retorno;
+    }
     public void inserirTreinoEspecificacao(TreinoEspecificacao treinoEspecificacao) {
         String sql = "INSERT INTO treinosespecificacoes (codigo, codigoexercicio, series, " +
                 "repmin, repmax, carga, descanso) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -104,6 +128,25 @@ public class ManipuladorTreinoEspecificacao {
             System.out.println("Não existem exercicios a serem removidos.");
         } catch (SQLException e) {
             System.out.println("Erro ao tentar excluir os exercicios do treino.");
+        }
+    }
+
+    public void alterarExerciciosTreino(Integer codigo, TreinoEspecificacao treinoEspecificacaoLocal) {
+        String sql = "UPDATE treinosespecificacoes SET series=?, repmin=?, repmax=?, carga=?, descanso=? WHERE codigo =? AND codigoexercicio = ?";
+        try {
+
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+            stmt.setInt(1, treinoEspecificacaoLocal.getSeries());
+            stmt.setInt(2, treinoEspecificacaoLocal.getRepMin());
+            stmt.setInt(3, treinoEspecificacaoLocal.getRepMax());
+            stmt.setDouble(4, treinoEspecificacaoLocal.getCarga());
+            stmt.setInt(5, treinoEspecificacaoLocal.getDescanso());
+            stmt.setInt(6, codigo);
+            stmt.setInt(7, treinoEspecificacaoLocal.getCodigoExercicio());
+
+            stmt.execute();
+        } catch (SQLException e) {
+            System.out.println("Erro ao tentar alterar o Exercicio do treino.");
         }
     }
 }
