@@ -240,7 +240,7 @@ public class Main {
                     impressao.imprimirLista(planoAtivoList);
                     break;
                 case 15:
-
+                    Integer opcao2 = 0;
                     TreinoCadastrado treinoCadastrado = new TreinoCadastrado();
                     treinoCadastrado.getDadosTreinoCadastrado();
                     contadorTreinos = manipuladorTreinosCadastrados.inserirTreinoCadastrado(treinoCadastrado);
@@ -248,9 +248,12 @@ public class Main {
 
                     TreinoEspecificacao treinoEspecificacao = new TreinoEspecificacao();
                     treinoEspecificacao.setCodigo(contadorTreinos);
-                    treinoEspecificacao.getDadosTreinoEspecificacao(exercicioList,
-                            impressao, manipuladorTreinoEspecificacao, hashMapMusculos);
+                    do{
+                        opcao2 = treinoEspecificacao.getDadosTreinoEspecificacao(exercicioList,
+                            hashMapMusculos);
+                    }while(opcao2 != 0);
 
+                    manipuladorTreinoEspecificacao.inserirTreinoEspecificacao(treinoEspecificacao);
 
                     break;
                 case 16:
@@ -373,7 +376,7 @@ public class Main {
 
                             if(alterar == 1){
                                 TreinoEspecificacao treinoEspecificacaoLocal = new TreinoEspecificacao();
-                                treinoEspecificacaoLocal.getDadosTreinoEspecificacaoCerto(exercicioList, hashMapMusculos);
+                                treinoEspecificacaoLocal.getDadosTreinoEspecificacao(exercicioList, hashMapMusculos);
                                 manipuladorTreinoEspecificacao.alterarExerciciosTreino(codigo, treinoEspecificacaoLocal);
                                 System.out.println("Exercicio do treino alterado com sucesso.");
                             }
